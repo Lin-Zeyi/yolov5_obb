@@ -299,8 +299,8 @@ class splitbase():
 
 
 if __name__ == '__main__':
-    split = splitbase(basepath=r'dataset/dataset_demo',
-                      outpath=r'dataset/dataset_demo_rate1.0_split1024_gap200',
+    split = splitbase(basepath=r'/home/linzy/DOTA/val',
+                      outpath=r'/home/linzy/yolov5_obb/dataset/DOTAv1.5/val',
                       gap=200,
                       subsize=1024,
                       num_process=8)                 
