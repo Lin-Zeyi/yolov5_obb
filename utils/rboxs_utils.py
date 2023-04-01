@@ -2,7 +2,8 @@
 Oriented Bounding Boxes utils
 """
 import numpy as np
-pi = 3.141592
+# pi = 3.141592
+from math import pi
 import cv2
 import torch
 
@@ -19,11 +20,11 @@ def gaussian_label_cpu(label, num_class, u=0, sig=4.0):
     Returns:
         csl_label (array): [num_theta_class], gaussian function smooth label
     """
-    x = np.arange(-num_class/2, num_class/2)
-    y_sig = np.exp(-(x - u) ** 2 / (2 * sig ** 2))
-    index = int(num_class/2 - label)
+    x = np.arange(-num_class/2, num_class/2) # usually -90 ~ 90 degree
+    y_sig = np.exp(-(x - u) ** 2 / (2 * sig ** 2)) # 对每个x都生成一个高斯函数。
+    index = int(num_class/2 - label) # 因为要进行索引，但是索引值必须非负，所以进行转换。这样，-90°~90°在索引里变成180~0
     return np.concatenate([y_sig[index:], 
-                           y_sig[:index]], axis=0)
+                           y_sig[:index]], axis=0) # 返回180°范围内的一大个高斯函数。在label取值处函数值为1，其他地方按照高斯分布衰减。
 
 def regular_theta(theta, mode='180', start=-pi/2):
     """
@@ -198,3 +199,8 @@ def poly_filter(polys, h, w):
     x_ctr, y_ctr = (x_max + x_min) / 2.0, (y_max + y_min) / 2.0 # (num)
     keep_masks = (x_ctr > 0) & (x_ctr < w) & (y_ctr > 0) & (y_ctr < h) 
     return keep_masks
+
+if __name__ == "__main__":
+    a = gaussian_label_cpu(90, 180, sig=2.0)
+    print(a)
+    print(a.size)

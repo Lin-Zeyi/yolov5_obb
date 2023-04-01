@@ -819,7 +819,7 @@ def non_max_suppression_obb(prediction, conf_thres=0.25, iou_thres=0.45, classes
         # Compute conf
         x[:, 5:class_index] *= x[:, 4:5]  # conf = obj_conf * cls_conf
 
-        _, theta_pred = torch.max(x[:, class_index:], 1,  keepdim=True) # [n_conf_thres, 1] θ ∈ int[0, 179]
+        _, theta_pred = torch.max(x[:, class_index:], 1,  keepdim=True) # [n_conf_thres, 1] θ ∈ int[0, 179] CSL解码，找到高斯分布最高点对应的索引值（也就是角度）
         theta_pred = (theta_pred - 90) / 180 * pi # [n_conf_thres, 1] θ ∈ [-pi/2, pi/2)
 
         # Detections matrix nx7 (xyls, θ, conf, cls) θ ∈ [-pi/2, pi/2)
