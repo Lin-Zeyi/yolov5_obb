@@ -1,3 +1,6 @@
 dataset/DOTAv1.5
 runs
 weights
+models/__pycache__
+utils/__pycache__
+__pycache__
